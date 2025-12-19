@@ -4,10 +4,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>AKA France | Alliance of Knowledge & Accuracy</title>
-    <meta name="description" content="AKA France - Partenaire industriel : Mécanosoudure, usinage, injection plastique, tôlerie et fonderie laiton.">
+    
+    <link rel="icon" type="image/png" href="favicon.png">
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
+
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
+
     <style>
         :root {
             --aka-red: #c41e24;
@@ -15,23 +19,47 @@
             --cream: #faf8f5;
             --white: #ffffff;
             --text-dark: #2d2a26;
+            --hero-bg: #1a1a1a; /* Fond de sécurité si les images ne chargent pas */
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
         html { scroll-behavior: smooth; }
-        body { font-family: 'Outfit', sans-serif; font-weight: 300; color: var(--text-dark); background-color: var(--cream); line-height: 1.6; }
+        body { 
+            font-family: 'Outfit', sans-serif; 
+            font-weight: 300; 
+            color: var(--text-dark); 
+            background-color: var(--cream); 
+            line-height: 1.6; 
+        }
+
         h1, h2, h3 { font-family: 'Cormorant Garamond', serif; font-weight: 500; }
 
-        /* Navigation */
-        nav { position: fixed; top: 0; width: 100%; z-index: 1000; padding: 1.5rem 3rem; display: flex; justify-content: space-between; align-items: center; transition: 0.3s; }
-        nav.scrolled { background: rgba(255, 255, 255, 0.95); box-shadow: 0 2px 10px rgba(0,0,0,0.1); padding: 1rem 3rem; }
-        .logo { height: 45px; filter: brightness(0) invert(1); transition: 0.3s; }
-        nav.scrolled .logo { filter: none; }
-        .nav-links { display: flex; gap: 2rem; list-style: none; }
-        .nav-links a { text-decoration: none; color: white; font-weight: 400; font-size: 0.9rem; transition: 0.3s; }
-        nav.scrolled .nav-links a { color: var(--aka-brown); }
+        /* --- NAVIGATION --- */
+        nav { 
+            position: fixed; top: 0; width: 100%; z-index: 1000; 
+            padding: 1.5rem 3rem; display: flex; justify-content: space-between; align-items: center; 
+            transition: all 0.4s ease-in-out;
+        }
 
-        /* Hero avec Background Slideshow */
+        nav.scrolled { 
+            background: rgba(255, 255, 255, 0.98); 
+            box-shadow: 0 2px 20px rgba(0,0,0,0.1); 
+            padding: 0.8rem 3rem; 
+        }
+
+        /* LOGO : Filtre blanc au début, normal au scroll */
+        .logo { height: 50px; filter: brightness(0) invert(1); transition: 0.4s ease; }
+        nav.scrolled .logo { filter: none; }
+
+        .nav-links { display: flex; gap: 2.5rem; list-style: none; }
+        .nav-links a { 
+            text-decoration: none; color: white; font-weight: 400; 
+            font-size: 0.95rem; transition: 0.3s; 
+        }
+        nav.scrolled .nav-links a { color: var(--aka-brown); }
+        .nav-links a:hover { color: var(--aka-red); }
+
+        /* --- HERO & SLIDESHOW (Carousel) --- */
         .hero { 
             position: relative; 
             height: 100vh; 
@@ -40,60 +68,86 @@
             align-items: center; 
             justify-content: center; 
             overflow: hidden; 
-            color: white;
+            color: white; 
             text-align: center;
+            background-color: var(--hero-bg);
         }
 
         .slideshow-bg {
-            position: absolute;
-            top: 0; left: 0; width: 100%; height: 100%;
-            z-index: -2;
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 0;
         }
 
         .slide {
-            position: absolute;
-            top: 0; left: 0; width: 100%; height: 100%;
-            opacity: 0;
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            opacity: 0; 
             transition: opacity 1.5s ease-in-out;
             object-fit: cover;
         }
 
+        /* Active force l'opacité */
         .slide.active { opacity: 1; }
 
-        /* Overlay pour lisibilité */
-        .hero::after {
-            content: '';
-            position: absolute;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5));
-            z-index: -1;
+        /* Voile de contraste pour le texte et le logo blanc */
+        .hero-overlay {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0.4); 
+            z-index: 1;
         }
 
-        .hero-content { max-width: 900px; padding: 2rem; }
-        .hero h1 { font-size: clamp(2.5rem, 6vw, 4.5rem); margin-bottom: 1.5rem; }
-        .hero p { font-size: 1.2rem; margin-bottom: 2.5rem; font-weight: 300; opacity: 0.9; }
+        .hero-content { position: relative; z-index: 2; max-width: 900px; padding: 2rem; }
+        
+        .hero h1 { 
+            font-size: clamp(2.5rem, 6vw, 4.5rem); 
+            margin-bottom: 1.5rem; 
+            line-height: 1.1; 
+            animation: fadeInUp 1s ease;
+        }
 
-        .btn { padding: 1rem 2.5rem; text-decoration: none; border-radius: 2px; font-weight: 500; transition: 0.3s; display: inline-block; }
-        .btn-primary { background: var(--aka-red); color: white; }
-        .btn-primary:hover { background: #a8191e; transform: translateY(-2px); }
+        .hero p { 
+            font-size: 1.3rem; 
+            margin-bottom: 2.5rem; 
+            opacity: 0.9; 
+            animation: fadeInUp 1.2s ease;
+        }
 
-        /* Sections */
-        section { padding: 8rem 10%; }
-        .section-title { font-size: 2.8rem; margin-bottom: 3rem; color: var(--aka-brown); }
+        .btn-primary { 
+            background: var(--aka-red); 
+            color: white; 
+            padding: 1.2rem 2.8rem; 
+            text-decoration: none; 
+            border-radius: 2px;
+            font-weight: 500; 
+            transition: 0.3s; 
+            display: inline-block;
+        }
+        .btn-primary:hover { background: #a8191e; transform: translateY(-3px); }
 
-        /* Grid Services */
-        .services-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem; }
-        .service-card { background: white; padding: 3rem; border-radius: 4px; border-bottom: 4px solid transparent; transition: 0.3s; }
-        .service-card:hover { border-bottom-color: var(--aka-red); transform: translateY(-10px); box-shadow: 0 15px 30px rgba(0,0,0,0.05); }
-        .service-card h3 { margin-bottom: 1rem; color: var(--aka-brown); font-size: 1.5rem; }
+        /* --- SECTIONS --- */
+        section { padding: 8rem 10%; background: var(--white); }
+        .section-title { font-size: 3rem; margin-bottom: 2.5rem; color: var(--aka-brown); }
 
-        /* Organisation & Quality */
-        .dark-section { background: var(--aka-brown); color: white; }
-        .dark-section .section-title { color: white; }
-        .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 3rem; margin-top: 4rem; }
-        .stat-item h4 { font-size: 2.5rem; color: var(--aka-red); }
+        .services-grid { 
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2.5rem; 
+        }
+        .service-card { 
+            background: var(--cream); padding: 3rem; border-radius: 4px; 
+            transition: 0.3s; border-bottom: 4px solid transparent;
+        }
+        .service-card:hover { 
+            background: white; transform: translateY(-10px); 
+            box-shadow: 0 20px 40px rgba(0,0,0,0.05);
+            border-bottom-color: var(--aka-red);
+        }
 
-        .badge-gold { background: #d4af37; color: white; padding: 0.5rem 1.5rem; display: inline-block; border-radius: 4px; font-weight: 600; margin-top: 1rem; }
+        .badge-gold { 
+            background: #d4af37; color: white; padding: 0.5rem 1.2rem; 
+            display: inline-block; border-radius: 3px; font-weight: 600; font-size: 0.9rem;
+        }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
 
         @media (max-width: 768px) {
             nav { padding: 1rem; }
@@ -108,116 +162,102 @@
         <img src="logo-aka.png" alt="AKA France" class="logo">
         <ul class="nav-links">
             <li><a href="#about">Expertise</a></li>
-            <li><a href="#services">Savoir-faire</a></li>
+            <li><a href="#services">Métiers</a></li>
             <li><a href="#quality">Qualité</a></li>
             <li><a href="#contact">Contact</a></li>
         </ul>
     </nav>
 
-    <section class="hero">
+    <section class="hero" id="home">
         <div class="slideshow-bg">
-            <img src="image1.png" class="slide active" alt="Industrie AKA 1">
-            <img src="image2.png" class="slide" alt="Industrie AKA 2">
-            <img src="image3.png" class="slide" alt="Industrie AKA 3">
-            <img src="image4.png" class="slide" alt="Industrie AKA 4">
+            <img src="image1.jpg" class="slide active" alt="Industrie AKA 1">
+            <img src="image2.jpg" class="slide" alt="Industrie AKA 2">
+            <img src="image3.jpg" class="slide" alt="Industrie AKA 3">
+            <img src="image4.jpg" class="slide" alt="Industrie AKA 4">
         </div>
+        <div class="hero-overlay"></div>
         
         <div class="hero-content">
-            <h1>L'Excellence Industrielle sans compromis</h1>
-            <p>Mécanosoudure, Usinage, Injection Plastique, Tôlerie & Fonderie Laiton.<br>Le partenaire stratégique de vos projets entre l'Europe et la Chine.</p>
-            <a href="#services" class="btn btn-primary">Découvrir notre savoir-faire</a>
+            <h1>Précision Technique, Performance Industrielle</h1>
+            <p>Votre partenaire stratégique franco-chinois spécialisé en Mécanosoudure, Usinage, Tôlerie & Fonderie Laiton.</p>
+            <a href="#services" class="btn-primary">Découvrir notre savoir-faire</a>
         </div>
     </section>
 
     <section id="about">
-        <div style="max-width: 800px;">
+        <div style="max-width: 900px;">
             <h2 class="section-title">Alliance of Knowledge & Accuracy</h2>
             <p style="font-size: 1.2rem; color: #555; margin-bottom: 2rem;">
-                Basée à Nantes, AKA France sécurise la chaîne de valeur industrielle de ses clients depuis 30 ans. En tant que futur Directeur Général, ma mission est de porter notre structure vers les plus hauts standards de performance opérationnelle et environnementale.
+                Basés à Nantes, nous pilotons votre supply-chain industrielle avec une exigence de maturité européenne. Sous la direction de Yassine Gavarin, AKA France transforme vos projets complexes en succès mesurables grâce à une maîtrise totale de la production et de la qualité.
             </p>
-            <div class="badge-gold">Certification EcoVadis Or</div>
+            <div style="display: flex; gap: 1rem; align-items: center;">
+                <span style="font-weight: 600;">ISO 9001 / 14001</span>
+                <span class="badge-gold">EcoVadis Or</span>
+            </div>
         </div>
     </section>
 
-    <section id="services" style="background: #f0ebe4;">
-        <h2 class="section-title">Nos Métiers</h2>
+    <section id="services" style="background: var(--cream);">
+        <h2 class="section-title">Nos expertises</h2>
         <div class="services-grid">
             <div class="service-card">
                 <h3>Mécanosoudure & Tôlerie</h3>
-                <p>Maîtrise complète des structures métalliques complexes et du travail de précision sur tôle.</p>
+                <p>Conception et fabrication de structures métalliques complexes et travail de précision sur tôle.</p>
             </div>
             <div class="service-card">
-                <h3>Usinage de Précision</h3>
-                <p>Capacités multi-axes pour pièces critiques en acier, aluminium et alliages spécifiques.</p>
+                <h3>Usinage & Décolletage</h3>
+                <p>Pièces de haute précision pour les secteurs aéronautique, médical et industriel.</p>
             </div>
             <div class="service-card">
                 <h3>Fonderie Laiton</h3>
-                <p>Expertise pointue en fonderie pour composants durables et techniques.</p>
+                <p>Une expertise de niche pour vos pièces spécifiques nécessitant durabilité et précision.</p>
             </div>
             <div class="service-card">
                 <h3>Injection Plastique</h3>
-                <p>Conception d'outillages et production série pour pièces techniques injectées.</p>
+                <p>Moules sur-mesure et production de pièces techniques en moyennes et grandes séries.</p>
             </div>
             <div class="service-card">
-                <h3>Assemblage & Peinture</h3>
-                <p>Intégration complète de vos produits finis avec finitions peinture haute résistance.</p>
+                <h3>Assemblage & Logistique</h3>
+                <p>Intégration complète de sous-ensembles et gestion des flux Chine-Europe via LARK.</p>
             </div>
             <div class="service-card">
-                <h3>Logistique Intégrée</h3>
-                <p>Gestion des flux Asie-Europe et stockage stratégique pour une réactivité optimale.</p>
+                <h3>Peinture & Finition</h3>
+                <p>Traitements de surface et peinture industrielle répondant aux standards les plus stricts.</p>
             </div>
         </div>
     </section>
 
-    <section class="dark-section" id="quality">
-        <h2 class="section-title">Une Organisation Structurée</h2>
-        <p>Nous transformons les capacités de production chinoises aux exigences européennes par un pilotage rigoureux (LARK, ITP, FAI).</p>
-        
-        <div class="stats-grid">
-            <div class="stat-item">
-                <h4>10M€</h4>
-                <p>Chiffre d'Affaires</p>
-            </div>
-            <div class="stat-item">
-                <h4>30 ans</h4>
-                <p>D'expertise terrain</p>
-            </div>
-            <div class="stat-item">
-                <h4>3</h4>
-                <p>Sites industriels dédiés</p>
-            </div>
-            <div class="stat-item">
-                <h4>ISO</h4>
-                <p>9001 & 14001</p>
-            </div>
-        </div>
-    </section>
-
-    <footer style="padding: 4rem 10%; background: #222; color: white; text-align: center;">
-        <p>&copy; 2025 AKA France | Nantes - Cixi</p>
+    <footer style="padding: 4rem 10%; background: #1a1a1a; color: white; text-align: center;">
+        <img src="logo-aka.png" alt="AKA" style="height: 40px; filter: brightness(0) invert(1); opacity: 0.8; margin-bottom: 2rem;">
+        <p style="opacity: 0.5; font-size: 0.9rem;">&copy; 2025 AKA France — Nantes / Cixi. Tous droits réservés.</p>
     </footer>
 
     <script>
-        // Slideshow Background Logic
-        let currentSlide = 0;
-        const slides = document.querySelectorAll('.slide');
-        
-        function nextSlide() {
-            slides[currentSlide].classList.remove('active');
-            currentSlide = (currentSlide + 1) % slides.length;
-            slides[currentSlide].classList.add('active');
-        }
+        document.addEventListener('DOMContentLoaded', () => {
+            
+            // 1. LOGIQUE DU CARROUSEL
+            const slides = document.querySelectorAll('.slide');
+            let currentSlide = 0;
+            const slideInterval = 3500; // 3.5 secondes
 
-        setInterval(nextSlide, 4000); // Changement toutes les 4 secondes
-
-        // Navbar Scroll Effect
-        window.addEventListener('scroll', () => {
-            const nav = document.querySelector('nav');
-            if (window.scrollY > 50) {
-                nav.classList.add('scrolled');
-            } else {
-                nav.classList.remove('scrolled');
+            if (slides.length > 0) {
+                function nextSlide() {
+                    slides[currentSlide].classList.remove('active');
+                    currentSlide = (currentSlide + 1) % slides.length;
+                    slides[currentSlide].classList.add('active');
+                }
+                setInterval(nextSlide, slideInterval);
             }
+
+            // 2. EFFET DE NAVIGATION AU SCROLL
+            const nav = document.getElementById('navbar');
+            window.addEventListener('scroll', () => {
+                if (window.scrollY > 50) {
+                    nav.classList.add('scrolled');
+                } else {
+                    nav.classList.remove('scrolled');
+                }
+            });
         });
     </script>
 </body>
